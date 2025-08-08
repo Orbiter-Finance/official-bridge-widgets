@@ -1,1 +1,1 @@
-export { Widgets } from './components/Widgets'
+export { default as OrbiterUltraBridge } from './OrbiterUltraBridge'

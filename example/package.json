@@ -1,0 +1,16 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.tsx",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config ./vite.config.ts",
+    "build": "tsc -b && vite build --config ./vite.config.ts",
+    "preview": "vite preview --config ./vite.config.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1"
+}

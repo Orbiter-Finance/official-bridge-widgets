@@ -6,6 +6,8 @@ import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   build: {
+    cssCodeSplit: false,
+    sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'cjs'],
@@ -15,11 +17,17 @@ export default defineConfig({
     rollupOptions: {
       external: ['react', 'react-dom'],
       output: {
+        assetFileNames: 'index.[ext]',
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM'
         }
       }
+    }
+  },
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, './src')
     }
   },
   plugins: [
