@@ -1,12 +1,10 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Axios, { AxiosResponse } from 'axios'
 
 import { mapBusinessErrorCode } from '@/utils/error/error-codes'
 import { handleError } from '@/utils/error/error-handler'
-import { OrbiterUltraBridgeConfig } from '@/types'
-import { BASE_URLS } from '../consts'
 
 // API response interface
 interface ApiResponseData<T = any> {
@@ -58,13 +56,6 @@ api.interceptors.response.use(
   }
 )
 export type ApiResponse<T> = Promise<AxiosResponse<T>>
-
-export function useInitApiBaseURL(network: OrbiterUltraBridgeConfig['network']) {
-  useEffect(() => {
-    api.defaults.baseURL = BASE_URLS[network || 'mainnet']
-    console.log(api.defaults.baseURL,BASE_URLS[network || 'mainnet'])
-  }, [network])
-}
 
 // Create a react-query client with error handling configuration
 const queryClient = new QueryClient({

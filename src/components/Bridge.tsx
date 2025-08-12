@@ -1,4 +1,5 @@
 import { NotepadText } from 'lucide-react'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 import { useDestinationTokens, useSelectedTokens } from '@/hooks/tokens/use-token'
 import { useFromChain, useToChain } from '@/hooks/use-chains'
@@ -64,15 +65,24 @@ export const Bridge = () => {
   }
 
   return (
-    <div className='flex flex-col items-center w-screen h-screen fixed inset-0 mt-20 sm:mt-24 2xl:mt-32 px-2 md:px-0 overflow-y-auto overflow-x-hidden '>
+    <div className='flex flex-col items-center inset-0 p-4 overflow-y-auto overflow-x-hidden '>
       <Tabs defaultValue='bridge' className='w-full max-w-md'>
         <div className='flex items-center justify-between'>
           <TabsList>
             <TabsTrigger value='bridge' className='h-[32px]'>
               Bridge
             </TabsTrigger>
-            {/* <TabsTrigger value="swap">Swap</TabsTrigger> */}
           </TabsList>
+
+          <ConnectButton
+            chainStatus='none'
+            label='Connect'
+            showBalance={{ smallScreen: true, largeScreen: false }}
+            accountStatus={{
+              smallScreen: 'address',
+              largeScreen: 'address'
+            }}
+          />
 
           <div
             className='w-[32px] h-[32px] rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-all cursor-pointer'

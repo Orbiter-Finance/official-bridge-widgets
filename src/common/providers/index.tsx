@@ -1,15 +1,15 @@
 'use client'
 
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode } from 'react'
 import { Locale, RainbowKitProvider, darkTheme, lightTheme } from '@rainbow-me/rainbowkit'
 import '@rainbow-me/rainbowkit/styles.css'
 import { WagmiProvider } from 'wagmi'
-import { useWagmiConfig } from '@/hooks/use-wagmi'
 import { useClientState } from '@/service/hooks/use-state-client'
 import { useFromChainId } from '@/service/stores/bridge.store'
-import { OrbiterUltraBridgeConfig } from '@/types'
+import { BridgeConfig } from '@/types'
 import { I18nProvider } from '@/providers/i18n'
 import { ThemeProvider } from '@/providers/theme'
+import { useWagmiConfig } from '@/hooks/use-wagmi'
 
 export function Providers({
   children,
@@ -18,26 +18,15 @@ export function Providers({
   locale
 }: {
   children: ReactNode
-  locale?: OrbiterUltraBridgeConfig['locale']
-  resolvedTheme?: OrbiterUltraBridgeConfig['theme']
-  network?: OrbiterUltraBridgeConfig['network']
+  locale: BridgeConfig['locale']
+  resolvedTheme: BridgeConfig['theme']
+  network: BridgeConfig['network']
 }) {
-  const [mounted, setMounted] = useState(false)
-
   // Ensure consistent hook call order
 
-  const wagmiConfig = useWagmiConfig({ network })
   const { metadata, name, theme } = useClientState()
   const fromChainId = useFromChainId()
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Don't render anything until mounted and config is available
-  if (!mounted || !wagmiConfig) {
-    return <>{children}</>
-  }
+  const config = useWagmiConfig({ network })
 
   const rainbowTheme =
     resolvedTheme === 'light'
@@ -53,7 +42,7 @@ export function Providers({
         })
 
   return (
-    <WagmiProvider config={wagmiConfig}>
+    <WagmiProvider config={config}>
       <RainbowKitProvider
         initialChain={fromChainId}
         locale={locale && locale?.includes('zh') ? 'zh' : (locale as Locale) || 'en'}

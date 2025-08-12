@@ -12,8 +12,9 @@ import { useWaitingForBridgeSignature } from '@/service/stores/bridge.store'
 
 import { ConfirmationModalReviewTab } from '../confirmation/tab-1-review'
 import { ConfirmationModalStartTab } from '../confirmation/tab-2-start'
+import { DialogPortalProps } from '@radix-ui/react-dialog'
 
-export const ConfirmationModal = () => {
+export const ConfirmationModal = ({ container }: { container?: DialogPortalProps['container'] }) => {
   const { t } = useTranslation()
   const { isOpen, close } = useModal('Confirmation')
   const [activeIndex, setActiveIndex] = useState(0)
@@ -44,7 +45,7 @@ export const ConfirmationModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={cancel}>
-      <DialogContent hideCloseButton className='border border-bg1' onPointerDownOutside={e => e.preventDefault()}>
+      <DialogContent container={container} hideCloseButton className='border border-bg1' onPointerDownOutside={e => e.preventDefault()}>
         <DialogHeader className='flex flex-row justify-between items-center p-4 pb-3.5 sticky top-0 border-b border-muted'>
           <div className='w-10 h-10 shrink-0'>
             {activeIndex === 0 || bridgeSubmitted || waitingForBridgeSignature ? null : (

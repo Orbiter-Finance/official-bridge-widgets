@@ -1,1 +1,1 @@
-export { default as OrbiterUltraBridge } from './OrbiterUltraBridge'
+export { default as Bridge } from './Bridge'

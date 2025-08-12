@@ -1,7 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}', './app/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './example/src/**/*.{js,jsx,ts,tsx}'
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -63,18 +66,7 @@ module.exports = {
         '2xs': 'calc(var(--radius) - 8px)'
       },
       fontSize: {
-        xs: '12px',
-        s: '14px',
-        m: '16px',
-        l: '18px',
-        xl: '20px',
-        '2xl': '24px',
-        '3xl': '28px',
-        xxl: '24px',
-        xxxl: '36px',
-        lg: '40px',
-        xlg: '56px',
-        '4xl': '36px'
+       
       }
     }
   },

@@ -6,7 +6,7 @@ import type { InjectedState } from '@/service/models/inject.model'
 import { TokenType } from '@/service/models/token.model'
 import { fromChainIdAtom, toChainIdAtom } from '@/service/stores/bridge.store'
 import { destinationTokenAtom, selectedTokenAtom } from '@/service/stores/token.store'
-import { OrbiterUltraBridgeConfig } from '@/types'
+import { BridgeConfig } from '@/types'
 import { mainnetConfig, testConfig } from '../consts/global'
 import { useGetBridgeConfig } from '@/service/hooks/use-bridge-config'
 
@@ -14,8 +14,8 @@ export const injectedStateAtom = atom<InjectedState | null>(null)
 
 export interface InjectedStoreProviderProps {
   children: ReactNode
-  projectId: OrbiterUltraBridgeConfig['projectId']
-  network?: OrbiterUltraBridgeConfig['network']
+  projectId: BridgeConfig['projectId']
+  network?: BridgeConfig['network']
 }
 
 export const InjectedStoreProvider = ({ children, projectId, network }: InjectedStoreProviderProps) => {
@@ -50,7 +50,7 @@ export const useInjectedStore = <T,>(selector: (state: Partial<InjectedState>) =
   return selector(state || {})
 }
 
-const getInjectedState = (initialValues: InjectedState | undefined, network?: OrbiterUltraBridgeConfig['network']) => {
+const getInjectedState = (initialValues: InjectedState | undefined, network?: BridgeConfig['network']) => {
   const defaultAppConfig = network === 'mainnet' ? mainnetConfig : testConfig
   const s = { ...defaultAppConfig, ...initialValues }
 

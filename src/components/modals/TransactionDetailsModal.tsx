@@ -1,6 +1,6 @@
 import { memo, useCallback, useMemo } from 'react'
 
-import { DialogClose } from '@radix-ui/react-dialog'
+import { DialogClose, DialogPortalProps } from '@radix-ui/react-dialog'
 import { useTranslation } from '@/providers/i18n'
 
 import { RouteProvider } from '@/common/consts/route-provider'
@@ -200,7 +200,7 @@ const Content = memo(() => {
 
 Content.displayName = 'Content'
 
-export const TransactionDetailsModal = memo(() => {
+export const TransactionDetailsModal = memo(({ container }: { container?: DialogPortalProps['container'] }) => {
   const modal = useModal('TransactionDetails')
 
   const handleOpenChange = useCallback(
@@ -214,7 +214,7 @@ export const TransactionDetailsModal = memo(() => {
 
   return (
     <Dialog open={modal.isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent hideCloseButton>
+      <DialogContent hideCloseButton container={container}>
         <Content />
       </DialogContent>
     </Dialog>

@@ -4,6 +4,7 @@ import { Search } from 'lucide-react'
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog2'
 import { Skeleton } from '@/components/ui/skeleton'
+import { DialogPortalProps } from '@radix-ui/react-dialog'
 
 export interface BaseSelectItem {
   id: string | number
@@ -23,6 +24,7 @@ interface CommonSelectModalProps<T extends BaseSelectItem> {
   keyword?: string
   onKeywordChange?: (keyword: string) => void
   onPopularClick?: (item: T) => void
+  container?: DialogPortalProps['container']
 }
 
 export const CommonSelectModal = <T extends BaseSelectItem>({
@@ -37,7 +39,8 @@ export const CommonSelectModal = <T extends BaseSelectItem>({
   renderPopularItem,
   isLoading,
   keyword,
-  onKeywordChange
+  onKeywordChange,
+  container
 }: CommonSelectModalProps<T>) => {
   const handleSelect = (item: T) => {
     onSelectItem(item)
@@ -46,7 +49,7 @@ export const CommonSelectModal = <T extends BaseSelectItem>({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className='max-w-md p-0 sm:max-w-sm bg-bg1'>
+      <DialogContent container={container} className='w-full bg-bg1'>
         <DialogHeader className='p-6 pb-4'>
           <DialogTitle className='text-xl font-bold'>{title}</DialogTitle>
         </DialogHeader>

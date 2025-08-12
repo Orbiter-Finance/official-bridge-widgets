@@ -11,24 +11,25 @@ export const useTransformPeriodText = () => {
     (str: string, args: any, period: Period) => {
       const value =
         period?.period === 'secs'
-          ? t(`${str}Seconds`, {
+          ? t(`seconds`, {
               ...args,
               count: period.value
             }).toString()
           : period?.period === 'mins'
-            ? t(`${str}Minutes`, {
+            ? t(`minutes`, {
                 ...args,
                 count: period.value
               }).toString()
             : period?.period === 'hours'
-              ? t(`${str}Hours`, {
+              ? t(`hours`, {
                   ...args,
                   count: period.value
                 }).toString()
-              : t(`${str}Days`, {
+              : t(`days`, {
                   ...args,
                   count: period?.value
                 }).toString()
+        
       return value ?? ''
     },
     [t]

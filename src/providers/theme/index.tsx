@@ -20,8 +20,7 @@ export const useTheme = () => {
 export const ThemeProvider: React.FC<{ children: React.ReactNode; theme?: Theme }> = ({ children, theme: defaultTheme }) => {
   const [theme, setTheme] = useState<Theme>(() => {
     const savedTheme = localStorage.getItem('theme') as Theme
-
-    return defaultTheme || savedTheme || window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return defaultTheme || savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
   })
 
   useEffect(() => {
