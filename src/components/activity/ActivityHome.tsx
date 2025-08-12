@@ -84,8 +84,8 @@ export const ActivityHome = () => {
   }, [inView, isError, fetchNextPage, isFetchingNextPage, isLoading, totalTransactions, transactions])
 
   return (
-    <main
-      className='flex items-start justify-center scroll-smooth overflow-y-scroll w-screen h-dvh fixed inset-0 px-2 md:px-0 py-20 md:py-20 z-[25]'
+    <div
+      className='flex items-start justify-center scroll-smooth overflow-y-scroll w-full h-full absolute inset-0 px-2 md:px-0 py-20 md:py-20 z-[25]'
       key='bridgeMain'
       onClick={() => {
         setDisplayTransactions(false)
@@ -98,7 +98,7 @@ export const ActivityHome = () => {
         exit={{ opacity: 0, scale: 0.1 }}
         whileHover={{ scale: 1.1 }}
         key='close-activity-button'
-        className={`flex items-center cursor-pointer w-10 h-10 shrink-0 justify-center rounded-full shadow-sm bg-card fixed top-6 right-6 z-10`}>
+        className={`flex items-center cursor-pointer w-10 h-10 shrink-0 justify-center rounded-full shadow-sm bg-card absolute top-6 right-6 z-10`}>
         <IconClose className='fill-foreground w-3.5 h-3.5' />
       </motion.button>
       <motion.div variants={container} initial={'hidden'} animate={'show'} exit={'hidden'} className='flex flex-col items-center w-full'>
@@ -247,6 +247,6 @@ export const ActivityHome = () => {
             )
           })}
       </motion.div>
-    </main>
+    </div>
   )
 }

@@ -20,7 +20,13 @@ export const useI18n = () => {
 }
 
 export const useTranslation = () => {
-  return useI18n().i18n
+  const { i18n } = useI18n()
+
+  return useMemo(() => {
+    i18n.t = i18n.t.bind(i18n)
+
+    return i18n
+  }, [i18n])
 }
 
 export const I18nProvider = ({ children, locale }: I18nProviderProps) => {

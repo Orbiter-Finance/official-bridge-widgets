@@ -1,18 +1,19 @@
+import { useRef } from 'react'
 import { ConfirmationModal } from './ConfirmationModal'
-import { RouteSelectModal } from './RouteSelectModal'
 import { TokenSelectModal } from './TokenSelectModal'
 import { TransactionDetailsModal } from './TransactionDetailsModal'
 
-// import { ActivityModal } from './ActivityModal';
-
 export const Modals = () => {
+  const containerRef = useRef<Element>(null)
+
   return (
-    <>
-      <ConfirmationModal />
-      <RouteSelectModal />
-      <TokenSelectModal />
-      <TransactionDetailsModal />
-      {/* <ActivityModal /> */}
-    </>
+    <div
+      ref={e => {
+        containerRef.current = e
+      }}>
+      <ConfirmationModal container={containerRef.current} />
+      <TokenSelectModal container={containerRef.current} />
+      <TransactionDetailsModal container={containerRef.current} />
+    </div>
   )
 }

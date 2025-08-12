@@ -13,7 +13,7 @@ import { NeroChain, NeroChainTestnet } from '@/common/consts/network/nero-chain'
 import { useClientState } from '@/service/hooks/use-state-client'
 
 import { getChainByDto } from './use-chains'
-import { OrbiterUltraBridgeConfig } from '@/types'
+import { BridgeConfig } from '@/types'
 
 // Global config cache to prevent multiple initializations
 let configCache: any = null
@@ -21,23 +21,18 @@ let configCache: any = null
 const projectId = 'd6557f623234b3df721feda833385b9d'
 
 const networks: {
-  [K in NonNullable<OrbiterUltraBridgeConfig['network']>]: Chain[]
+  [K in NonNullable<BridgeConfig['network']>]: Chain[]
 } = {
   mainnet: [mainnet, sepolia, EniChainTestnet, NeroChainTestnet],
   testnet: [mainnet, NeroChain, EniChain]
 }
 
-export function useWagmiConfig({ network }: { network?: OrbiterUltraBridgeConfig['network'] }) {
+export function useWagmiConfig({ network }: { network?: BridgeConfig['network'] }) {
   const state = useClientState()
   const { chains } = useClientState()
   const isInitialized = useRef(false)
 
   return useMemo(() => {
-    // Only initialize on client side
-    if (typeof window === 'undefined') {
-      return null
-    }
-
     // Return cached config if already initialized
     if (configCache && isInitialized.current) {
       return configCache

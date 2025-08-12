@@ -14,6 +14,7 @@ import { useSetDestinationToken, useSetSelectedToken } from '@/service/stores/to
 import { formatDecimals, formatToCurrency } from '@/utils/format-decimals'
 
 import { BaseSelectItem, CommonSelectModal } from './CommonSelectModal'
+import { DialogPortalProps } from '@radix-ui/react-dialog'
 
 const popularTokenSymbols = ['ETH', 'USDT', 'USDC']
 
@@ -24,7 +25,7 @@ interface TokenBalance {
 }
 interface TokenSelectItem extends TokenBalance, BaseSelectItem {}
 
-export const TokenSelectModal = () => {
+export const TokenSelectModal = ({ container }: { container?: DialogPortalProps['container'] }) => {
   const trackEvent = useTrackEvent()
   const { isOpen, close, data } = useModal('TokenSelect')
   const type = data as 'from' | 'to' | undefined
@@ -120,6 +121,7 @@ export const TokenSelectModal = () => {
       keyword={keyword}
       onKeywordChange={setKeyword}
       isLoading={isLoading}
+      container={container}
     />
   )
 }
