@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback, createContext, useContext } from 'react'
 
+const OB_CLASS = 'o-dark'
+
 export type Theme = 'light' | 'dark'
 
 export interface ThemeContextType {
@@ -23,14 +25,24 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode; theme?: Theme 
     return defaultTheme || savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
   })
 
-  useEffect(() => {
+  const changeTheme = useCallback((theme: Theme) => {
     if (theme === 'dark') {
-      document.documentElement.classList.add('dark')
+      document.documentElement.classList.add(OB_CLASS)
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove(OB_CLASS)
     }
     localStorage.setItem('theme', theme)
-  }, [theme])
+  }, [])
+
+  useEffect(() => {
+    changeTheme(theme)
+  }, [changeTheme, theme])
+
+  useEffect(() => {
+    if(defaultTheme){
+      changeTheme(defaultTheme)
+    }
+  }, [changeTheme, defaultTheme])
 
   const toggleTheme = useCallback(() => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'))

@@ -37,7 +37,7 @@ export function Providers({
         })
       : darkTheme({
           borderRadius: 'large',
-          accentColor: 'var(--primary-gradient)',
+          accentColor: 'var(--primary-foreground)',
           accentColorForeground: theme?.foregroundDark
         })
 

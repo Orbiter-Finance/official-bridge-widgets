@@ -7,13 +7,14 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   build: {
+    outDir: 'lib',
     cssCodeSplit: false,
     // sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'cjs'],
       name: 'Bundle',
-      fileName: `index`
+      fileName: `index`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

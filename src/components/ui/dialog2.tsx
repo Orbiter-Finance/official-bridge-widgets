@@ -44,7 +44,7 @@ const DialogContent = React.forwardRef<
                     data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0
                     data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95
                     rounded-t-[21px] md:rounded-[32px] bg-card overflow-hidden overflow-y-auto`,
-          'absolute top-0 left-0 w-full h-full',
+          'absolute top-0 left-0 w-full h-full rounded-3xl',
           'tracking-tight',
           'bg-background text-foreground',
           className

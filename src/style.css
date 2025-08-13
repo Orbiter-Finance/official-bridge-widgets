@@ -3,7 +3,7 @@
 @import './styles/animation.css';
 @config '../tailwind.config.js';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.o-dark *));
 
 /* HostGrotesk Font Family */
 @font-face {
@@ -100,12 +100,11 @@
     @apply border-border outline-ring/50 rounded-3xl overflow-hidden;
   }
   .orbiter-bridge {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
   }
 }
 
 :root {
-  /* eni */
   --color-gray-900: rgb(20, 20, 26);
   --color-gray-800: rgb(37, 37, 54);
   --color-gray-700: rgb(55, 55, 74);
@@ -116,19 +115,7 @@
   --color-gray-200: rgb(218, 218, 230);
   --color-gray-100: rgb(237, 237, 242);
   --color-gray-50: rgb(248, 248, 250);
-  /* orbiter */
-  /* --color-gray-900: rgb(26, 26, 26);
-    --color-gray-800: rgb(46, 46, 46);
-    --color-gray-700: rgb(64, 64, 64);
-    --color-gray-600: rgb(108, 108, 108);
-    --color-gray-500: rgb(144, 144, 144);
-    --color-gray-400: rgb(176, 176, 176);
-    --color-gray-300: rgb(204, 204, 204);
-    --color-gray-200: rgb(227, 227, 227);
-    --color-gray-100: rgb(240, 240, 240);
-    --color-gray-50: rgb(250, 250, 250); */
 
-  /* eni */
   --color-brand-900: rgb(13, 14, 81);
   --color-brand-800: rgb(11, 14, 114);
   --color-brand-700: rgb(49, 54, 169);
@@ -139,17 +126,7 @@
   --color-brand-200: rgb(194, 197, 253);
   --color-brand-100: rgb(224, 226, 254);
   --color-brand-50: #rgb(243, 244, 255);
-  /* orbiter */
-  /* --color-orange-900: #4b1e06;
-    --color-orange-800: #7c2d12;
-    --color-orange-700: #b45309;
-    --color-orange-600: #f59e42;
-    --color-orange-500: #ff9100;
-    --color-orange-400: #ffb547;
-    --color-orange-300: #ffd580;
-    --color-orange-200: #ffe5b4;
-    --color-orange-100: #fff3e0;
-    --color-orange-50: #fff8f0; */
+ 
   --color-yellow-900: #4b4306;
   --color-yellow-800: #7c6f12;
   --color-yellow-700: #b4a309;
@@ -222,18 +199,8 @@
   --color-red-100: #ffded7;
   --color-red-50: #fff3f3;
 
-  /* --color-red-900: #7b1f1f;
-    --color-red-800: #b71c1c;
-    --color-red-700: #c62828;
-    --color-red-600: #d32f2f;
-    --color-red-500: #f44336;
-    --color-red-400: #e57373;
-    --color-red-300: #ef9a9a;
-    --color-red-200: #ffcdd2;
-    --color-red-100: #ffebee;
-    --color-red-50: #fff5f5; */
   --radius: 12px;
-  --background: #ffffff;
+  --background: var(--color-gray-50);
   --foreground: #000000;
   --card: #ffffff;
   --card-foreground: #000000;
@@ -267,7 +234,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-.dark {
+.o-dark {
   --color-gray-900: rgb(248, 248, 250);
   --color-gray-800: rgb(237, 237, 242);
   --color-gray-700: rgb(218, 218, 230);
@@ -289,17 +256,6 @@
   --color-brand-200: rgb(11, 14, 114);
   --color-brand-100: rgb(13, 14, 81);
   --color-brand-50: rgb(13, 14, 81);
-
-  /* --color-brand-900: #fff0f5;
-    --color-brand-800: #ffe5ec;
-    --color-brand-700: #ffd6e0;
-    --color-brand-600: #ffb3c6;
-    --color-brand-500: #ff8fa3;
-    --color-brand-400: #ff6f91;
-    --color-brand-300: #ff4d6d;
-    --color-brand-200: #c9182b;
-    --color-brand-100: #a41323;
-    --color-brand-50: #6b0f1a; */
 
   --color-orange-900: #fff8f0;
   --color-orange-800: #fff3e0;
@@ -371,7 +327,7 @@
   --color-pink-200: #c2185b;
   --color-pink-100: #ad1457;
   --color-pink-50: #880e4f;
-  /* eni */
+
   --color-red-900: #fff3f3;
   --color-red-800: #ffded7;
   --color-red-700: #ffb7b0;
@@ -383,16 +339,7 @@
   --color-red-100: #600c35;
   --color-red-50: #49072d;
   /* orbiter */
-  /* --color-red-900: #fff5f5;
-    --color-red-800: #ffebee;
-    --color-red-700: #ffcdd2;
-    --color-red-600: #ef9a9a;
-    --color-red-500: #e57373;
-    --color-red-400: #f44336;
-    --color-red-300: #d32f2f;
-    --color-red-200: #c62828;
-    --color-red-100: #b71c1c;
-    --color-red-50: #7b1f1f; */
+
   --background: #000000;
   --foreground: #ffffff;
   --card: #000000;

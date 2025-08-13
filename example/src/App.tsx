@@ -1,4 +1,5 @@
 import { Bridge } from '../../src'
+import './index.css'
 
 function App() {
   return (

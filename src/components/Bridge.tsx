@@ -74,20 +74,22 @@ export const Bridge = () => {
             </TabsTrigger>
           </TabsList>
 
-          <ConnectButton
-            chainStatus='none'
-            label='Connect'
-            showBalance={{ smallScreen: true, largeScreen: false }}
-            accountStatus={{
-              smallScreen: 'address',
-              largeScreen: 'address'
-            }}
-          />
+          <div className='flex items-center gap-3'>
+            <ConnectButton
+              chainStatus='none'
+              label='Connect'
+              showBalance={{ smallScreen: true, largeScreen: false }}
+              accountStatus={{
+                smallScreen: 'address',
+                largeScreen: 'address'
+              }}
+            />
 
-          <div
-            className='w-[32px] h-[32px] rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-all cursor-pointer'
-            onClick={openActivity}>
-            <NotepadText size={20} />
+            <div
+              className='w-[32px] h-[32px] rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-all cursor-pointer'
+              onClick={openActivity}>
+              <NotepadText size={20} />
+            </div>
           </div>
         </div>
 

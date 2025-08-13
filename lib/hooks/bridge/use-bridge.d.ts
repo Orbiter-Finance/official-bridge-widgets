@@ -1,0 +1,2 @@
+export declare const useBridgeEvm: () => () => Promise<import('../../service/models/transaction.model').NotSubmittedSafeTx | import('../../service/models/transaction.model').NotSubmittedCall | import('../../service/models/transaction.model').SubmittedTx | undefined>;
+export declare const useBridge: () => () => Promise<import('../../service/models/transaction.model').NotSubmittedSafeTx | import('../../service/models/transaction.model').NotSubmittedCall | import('../../service/models/transaction.model').SubmittedTx | undefined>;

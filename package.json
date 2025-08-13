@@ -2,12 +2,21 @@
   "name": "official-bridge-widgets",
   "private": true,
   "version": "0.0.0",
+  "types": "lib/index.d.ts",
+  "source": "./src/index.ts",
   "type": "module",
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./lib/index.js",
+  "module": "./lib/index.cjs",
+  "style": "./lib/style.css",
+  "exports": {
+    ".": {
+      "import": "./lib/index.js",
+      "require": "./lib/index.cjs"
+    },
+    "./*": "./*"
+  },
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
     "dev": "cd ./example && npm run dev",

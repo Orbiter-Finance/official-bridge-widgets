@@ -8,7 +8,7 @@ export const useTransformPeriodText = () => {
   const { t } = useTranslation()
 
   return useCallback(
-    (str: string, args: any, period: Period) => {
+    (_: string, args: any, period: Period) => {
       const value =
         period?.period === 'secs'
           ? t(`seconds`, {

@@ -17,7 +17,7 @@ export default function Bridge({ config }: { config: BridgeConfig }) {
   api.defaults.baseURL = BASE_URLS[config.network || 'testnet']
 
   return (
-    <div className='orbiter-bridge relative max-w-[448px] w-[448px] h-fit rounded-3xl'>
+    <div className='orbiter-bridge bg-background relative max-w-[448px] w-[448px] h-fit min-h-[500px] rounded-3xl'>
       <Providers config={config}>
         <BridgeUI />
       </Providers>

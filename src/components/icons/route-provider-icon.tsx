@@ -1,16 +1,19 @@
 import { RouteProvider, useProviderName } from '@/common/consts/route-provider'
 import { TransactionType } from '@/service/models/transaction.model'
+import ENIIcon from '@/assets/networks/eni.jpg'
+import NEROIcon from '@/assets/networks/nero.jpg'
+import OrbiterIcon from '@/assets/obt/orbiter.svg'
 
 const icons = {
-  [RouteProvider.EniDeposit]: '/img/networks/eni.jpg',
-  [RouteProvider.EniWithdrawal]: '/img/networks/eni.jpg',
-  [RouteProvider.EniForcedWithdrawal]: '/img/networks/eni.jpg',
-  [RouteProvider.EniInterop]: '/img/networks/eni.jpg',
-  [RouteProvider.NERODeposit]: '/img/networks/nero.jpg',
-  [RouteProvider.NEROWithdrawal]: '/img/networks/nero.jpg',
-  [RouteProvider.NEROForcedWithdrawal]: '/img/networks/nero.jpg',
-  [RouteProvider.NEROInterop]: '/img/networks/nero.jpg',
-  [RouteProvider.Orbiter]: '/img/obt/orbiter.svg'
+  [RouteProvider.EniDeposit]: ENIIcon,
+  [RouteProvider.EniWithdrawal]: ENIIcon,
+  [RouteProvider.EniForcedWithdrawal]: ENIIcon,
+  [RouteProvider.EniInterop]: ENIIcon,
+  [RouteProvider.NERODeposit]: NEROIcon,
+  [RouteProvider.NEROWithdrawal]: NEROIcon,
+  [RouteProvider.NEROForcedWithdrawal]: NEROIcon,
+  [RouteProvider.NEROInterop]: NEROIcon,
+  [RouteProvider.Orbiter]: OrbiterIcon
 }
 
 export const routeProviderToTransactionType = {
