@@ -52,7 +52,11 @@ export function OIcon({ type, iconId, className, src, size = 6, containerClassNa
   const renderSkeleton = <Skeleton className={cn('rounded-full absolute top-0 left-0', className)} style={{ width: size * 4, height: size * 4 }} />
 
   if (!iconId) {
-    return renderSkeleton
+    return (
+      <div className={cn('relative', containerClassName)} style={{ width: size * 4, height: size * 4 }}>
+        {renderSkeleton}
+      </div>
+    )
   }
 
   return (

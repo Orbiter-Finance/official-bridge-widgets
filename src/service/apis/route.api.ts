@@ -3,7 +3,6 @@ import { ApiResponse, api } from '@/common/providers/query.provider'
 import { RouteResultDto } from '../models/route.model'
 
 export interface GetBridgeRoutesParams {
-  host: string
   amount: string
   fromChainId: string
   toChainId: string

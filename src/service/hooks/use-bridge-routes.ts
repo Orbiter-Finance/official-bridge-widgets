@@ -7,10 +7,8 @@ import { useRecipient, useSender } from '@/hooks/wallets/use-recipient'
 import { getBridgeRoutes } from '../apis/route.api'
 import { useFromChainId, useRawAmount, useToChainId } from '../stores/bridge.store'
 import { useDestinationToken, useSelectedToken } from '../stores/token.store'
-import { useClientState } from './use-state-client'
 
 export const useBridgeRoutes = () => {
-  const { host } = useClientState()
   const fromChainId = useFromChainId()
   const toChainId = useToChainId()
   const token = useSelectedToken()
@@ -25,7 +23,6 @@ export const useBridgeRoutes = () => {
   const finalAmount = amount === '' || amount === null || amount === undefined ? '' : debouncedAmount
 
   const isReady = Boolean(
-    host &&
       sender &&
       recipient &&
       token?.address &&
@@ -42,12 +39,11 @@ export const useBridgeRoutes = () => {
   // }, [isReady, token, destinationToken]);
 
   return useQuery({
-    queryKey: ['bridge-routes', host, finalAmount, fromChainId, toChainId, token?.address, destinationToken?.address, sender, recipient],
+    queryKey: ['bridge-routes', finalAmount, fromChainId, toChainId, token?.address, destinationToken?.address, sender, recipient],
     queryFn: () => {
       if (!isReady) return null
 
       return getBridgeRoutes({
-        host: host!,
         amount: parseUnits(finalAmount, token!.decimals).toString(),
         fromChainId: fromChainId!.toString(),
         toChainId: toChainId!.toString(),
