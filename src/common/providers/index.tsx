@@ -14,8 +14,8 @@ import { useWagmiConfig } from '@/hooks/use-wagmi'
 export function Providers({
   children,
   network,
-  resolvedTheme,
-  locale
+  resolvedTheme = 'light',
+  locale = 'en-US'
 }: {
   children: ReactNode
   locale: BridgeConfig['locale']

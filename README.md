@@ -1,69 +1,61 @@
-# React + TypeScript + Vite
+# Orbiter Official Bridge Widget
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains the orbiter official bridge widgets code.
 
-Currently, two official plugins are available:
+You can customize the theme (colors, fonts, and more) to match the style of your application.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation
 
-## Expanding the ESLint configuration
+Install the widgets library via `yarn` or `pnpm`.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+yarn add https://github.com/Orbiter-Finance/official-bridge-widgets.git#main
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+```bash
+pnpm i --save https://github.com/Orbiter-Finance/official-bridge-widgets.git#main
+```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Usage
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### React environment
+
+```tsx
+import { Bridge } from 'official-bridge-widgets'
+import 'official-bridge-widgets/lib/index.css'
+
+function App() {
+  return (
+    <div className='mt-10 mx-auto w-fit'>
+      <Bridge config={{ projectId: 'a9b8c7d6-e5f4-3210-9876-5432dcba0231', theme: 'dark' }} />
+    </div>
+  )
+}
+
+export default App
+```
+
+## Config
+
+| Key           | Type                  | Default                 |
+| --------------| ----------------------| ------------------------|
+| projectId     | `string`              | string                  |
+| theme         | `light` or `dark`     | dark                    |
+| locale        | `en-US` or `zh-CN'`   | en-US                   |
+| network       | `testnet` or `mainnet`| testnet                 |
+
+## Example
+
+To start the example:
+
+```bash
+git clone https://github.com/Orbiter-Finance/official-bridge-widgets.git # clone
+
+yarn          # install dependencies
+cd ./example
+yarn dev    # run the development server
+# or
+pnpm i           # install dependencies
+cd ./example
+pnpm run dev # run the development server
 ```

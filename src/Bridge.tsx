@@ -1,6 +1,5 @@
 import { BridgeConfig } from './types'
-import { api, QueryProvider } from './common/providers/query.provider'
-import { BASE_URLS } from './common/consts'
+import { QueryProvider } from './common/providers/query.provider'
 import { Bridge as BridgeWidget } from './components/Bridge'
 import './style.css'
 import { Modals } from './components/modals'
@@ -14,7 +13,9 @@ import { InjectedStoreProvider } from './common/providers/injected.provider'
 import { Providers as BridgeProviders } from './common/providers'
 
 export default function Bridge({ config }: { config: BridgeConfig }) {
-  api.defaults.baseURL = BASE_URLS[config.network || 'testnet']
+  if (!config.projectId) {
+    throw Error('projectId must be a string')
+  }
 
   return (
     <div className='orbiter-bridge bg-background relative max-w-[448px] w-[448px] h-fit min-h-[500px] rounded-3xl'>
@@ -27,7 +28,7 @@ export default function Bridge({ config }: { config: BridgeConfig }) {
 
 function Providers({ config, children }: { config: BridgeConfig; children: React.ReactNode }) {
   return (
-    <QueryProvider>
+    <QueryProvider network={config.network} projectId={config.projectId}>
       <InjectedStoreProvider network={config.network} projectId={config.projectId}>
         <BridgeProviders resolvedTheme={config.theme} locale={config.locale} network={config.network}>
           {children}

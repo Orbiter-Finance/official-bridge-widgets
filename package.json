@@ -1,13 +1,23 @@
 {
   "name": "official-bridge-widgets",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "types": "lib/index.d.ts",
   "source": "./src/index.ts",
   "type": "module",
   "main": "./lib/index.js",
   "module": "./lib/index.cjs",
   "style": "./lib/style.css",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orbiter-Finance/official-bridge-widgets.git"
+  },
+  "author": "https://github.com/breeze98",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Orbiter-Finance/official-bridge-widgets/issues"
+  },
+  "homepage": "https://github.com/Orbiter-Finance/official-bridge-widgets#readme",
   "exports": {
     ".": {
       "import": "./lib/index.js",
@@ -51,6 +61,7 @@
     "framer-motion": "^12.16.0",
     "jotai": "^2.12.5",
     "lucide-react": "^0.513.0",
+    "official-bridge-widgets": "github:Orbiter-Finance/official-bridge-widgets#main",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-ga4": "^2.1.0",

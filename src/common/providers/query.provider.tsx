@@ -1,10 +1,12 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Axios, { AxiosResponse } from 'axios'
 
 import { mapBusinessErrorCode } from '@/utils/error/error-codes'
 import { handleError } from '@/utils/error/error-handler'
+import { BridgeConfig } from '@/types'
+import { BASE_URLS } from '../consts'
 
 // API response interface
 interface ApiResponseData<T = any> {
@@ -71,7 +73,36 @@ const queryClient = new QueryClient({
   }
 })
 
+function setAxiosConfig(projectId: BridgeConfig['projectId'], network: BridgeConfig['network'] = 'testnet') {
+  api.defaults.baseURL = BASE_URLS[network]
+
+  api.interceptors.request.use(
+    config => {
+      config.headers.projectId = projectId
+
+      return config
+    },
+    error => {
+      return Promise.reject(error)
+    }
+  )
+}
+
 // Provider component wrapper for React Query
-export function QueryProvider({ children }: { children: ReactNode }) {
+export function QueryProvider({
+  children,
+  projectId,
+  network
+}: {
+  children: ReactNode
+  projectId: BridgeConfig['projectId']
+  network?: BridgeConfig['network']
+}) {
+  setAxiosConfig(projectId, network)
+
+  useEffect(() => {
+    setAxiosConfig(projectId, network)
+  }, [projectId, network])
+
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 }
