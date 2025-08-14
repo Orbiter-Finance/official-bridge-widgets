@@ -39,7 +39,7 @@ export default App
 
 | Key           | Type                  | Default                 |
 | --------------| ----------------------| ------------------------|
-| projectId     | `string`              | string                  |
+| projectId     | `string`              | -                       |
 | theme         | `light` or `dark`     | dark                    |
 | locale        | `en-US` or `zh-CN'`   | en-US                   |
 | network       | `testnet` or `mainnet`| testnet                 |
