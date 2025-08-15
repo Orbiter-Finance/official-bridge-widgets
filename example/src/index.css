@@ -1,5 +1,7 @@
 :root {
+  --primary-gradient: #000;
 }
 
-.dark {
+.o-dark {
+  --primary-gradient: #38a3ee;
 }

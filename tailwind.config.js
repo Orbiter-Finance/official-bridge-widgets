@@ -64,9 +64,6 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)',
         xs: 'calc(var(--radius) - 6px)',
         '2xs': 'calc(var(--radius) - 8px)'
-      },
-      fontSize: {
-       
       }
     }
   },

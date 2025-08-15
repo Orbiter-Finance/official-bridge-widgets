@@ -41,8 +41,39 @@ export default App
 | --------------| ----------------------| ------------------------|
 | projectId     | `string`              | -                       |
 | theme         | `light` or `dark`     | dark                    |
-| locale        | `en-US` or `zh-CN'`   | en-US                   |
+| locale        | `en-US` or `zh-CN`    | en-US                   |
 | network       | `testnet` or `mainnet`| testnet                 |
+
+## CSS variables
+
+`BridgeWidget` only comes with some barebones styling by default, but it also uses a list of predefined CSS variables. You can overwrite these variables to suit your needs.
+
+```css
+/* example/src/index.css */
+
+/* Overwrite the light mode primary color to #000 */
+:root {
+  --primary-gradient: #000;
+}
+
+/* Overwrite the dark mode primary color to #38a3ee */
+.o-dark {
+  --primary-gradient: #38a3ee;
+}
+```
+
+| CSS variable                            | Example value                       |
+| --------------------------------------- | ----------------------------------- |
+| `--spacing`                             | .25rem                              |
+| `--radius`                              | 12px                                |
+| `--background`                          | rgb(248, 248, 250)                  |
+| `--foreground`                          | #000000                             |
+| `--primary`                             | rgb(99, 105, 235)                   |
+| `--primary-foreground`                  | #fff                                |
+| `--primary-gradient`                    | rgba(43, 218, 155, 1)               |
+| `--secondary`                           | rgb(72, 77, 202)                    |
+
+To implement more theme configurations, please review the [style.css](https://github.com/Orbiter-Finance/official-bridge-widgets/blob/main/src/style.css) file.
 
 ## Example
 

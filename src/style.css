@@ -1,95 +1,10 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import './styles/animation.css';
+@import './styles/font.css';
 @config '../tailwind.config.js';
 
 @custom-variant dark (&:is(.o-dark *));
-
-/* HostGrotesk Font Family */
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-LightItalic.ttf') format('truetype');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-MediumItalic.ttf') format('truetype');
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-SemiBoldItalic.ttf') format('truetype');
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-ExtraBold.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'HostGrotesk';
-  src: url('https://cdn.orbiter.finance/eni/font/HostGrotesk-ExtraBoldItalic.ttf') format('truetype');
-  font-weight: 800;
-  font-style: italic;
-  font-display: swap;
-}
 
 .orbiter-bridge {
   font-family: 'HostGrotesk', 'SF Pro Rounded', system-ui, 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -199,6 +114,7 @@
   --color-red-100: #ffded7;
   --color-red-50: #fff3f3;
 
+  --spacing:.25rem;
   --radius: 12px;
   --background: var(--color-gray-50);
   --foreground: #000000;
