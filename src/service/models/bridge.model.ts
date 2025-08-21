@@ -53,3 +53,24 @@ export interface ThemeDto {
   imageLogoSmall?: string
   imageLogoSmallDark?: string
 }
+
+export interface BridgeAmountLimitsDto {
+  fromChainId: string
+  toChainId: string
+  tokenAddress: string
+  limits: {
+    minValue: string
+    maxValue: string
+    tokenFee: {
+      feeWei: string
+      feeBP: string
+    }
+    minNetValue: string
+    maxNetValuePerTx: string
+  }
+  token: {
+    symbol: string
+    name: string
+    decimals: number
+  }
+}

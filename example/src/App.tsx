@@ -1,4 +1,4 @@
-import { Bridge } from 'official-bridge-widgets'
+import { Bridge } from '../../lib'
 import 'official-bridge-widgets/lib/index.css'
 import './index.css'
 

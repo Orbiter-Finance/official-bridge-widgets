@@ -5,7 +5,7 @@ import { getBridgeConfig } from '../apis/bridge.api'
 export const useGetBridgeConfig = (id: string) => {
   const { data, isLoading } = useQuery({
     queryKey: ['bridge_config', id],
-    queryFn: () => getBridgeConfig({ projectId:id }),
+    queryFn: () => getBridgeConfig({ projectId: id }),
     enabled: !!id
   })
 

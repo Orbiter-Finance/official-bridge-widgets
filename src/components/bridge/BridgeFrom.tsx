@@ -16,6 +16,8 @@ import { Button } from '../ui/button'
 import { Skeleton } from '../ui/skeleton'
 import { BridgeSelect } from './BridgeSelect'
 import { TokenSelect } from './TokenSelect'
+import { useBridgeAmountLimits } from '@/service/hooks/use-bridge-amount-limits'
+import { useMemo } from 'react'
 
 export const BridgeFrom = () => {
   const [fromChainId, setFromChainId] = useAtom(fromChainIdAtom)
@@ -32,6 +34,17 @@ export const BridgeFrom = () => {
   const price = useTokenPrice(token)
   const fiatAmount = Number(rawAmount) * (price ?? 0)
   const formattedTokenBalanceUSD = formatFiat(fiatAmount)
+
+  const { data: bridgeLimits } = useBridgeAmountLimits();
+  const placeholder = useMemo(() => {
+      if (!bridgeLimits?.data || !token) return '0';
+
+      try {
+          return `${formatUnits(BigInt(bridgeLimits.data.limits.minValue), token.decimals)}~${formatUnits(BigInt(bridgeLimits.data.limits.maxValue), token.decimals)}`;
+      } catch  {
+          return '0';
+      }
+  }, [bridgeLimits, token]);
 
   const onSetMax = () => {
     setRawAmount(displayTokenBalance)
@@ -74,7 +87,7 @@ export const BridgeFrom = () => {
             name='amount'
             id='amount'
             className={`block w-full shadow-none bg-transparent focus:outline-none text-4xl leading-[48px] placeholder:text-muted-foreground text-foreground`}
-            placeholder={token?.bridgeLimits ? `${token.bridgeLimits.minAmount}~${token.bridgeLimits.maxAmount}` : '0'}
+            placeholder={placeholder}
           />
           <TokenSelect />
         </div>

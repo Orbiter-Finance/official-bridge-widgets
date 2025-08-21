@@ -1,14 +1,24 @@
-import { ApiResponse, api } from '@/common/providers/query.provider'
+import { ApiResponseData, api } from '@/common/providers/query.provider'
 
-import { BridgeConfigDto } from '../models/bridge.model'
+import { BridgeAmountLimitsDto, BridgeConfigDto } from '../models/bridge.model'
 
 export interface GetBridgeConfigParams {
   host?: string
   projectId?: string
 }
 
-export const getBridgeConfig = async (params: GetBridgeConfigParams): ApiResponse<BridgeConfigDto> => {
-  const response = await api.post('/bridge/config', params)
+export interface GetBridgeAmountLimitsParams {
+  fromChainId: string
+  toChainId: string
+  tokenAddress: string
+}
 
-  return response.data
+export const getBridgeConfig = async (params: GetBridgeConfigParams) => {
+  const response = await api.post('/bridge/config', params)
+  return response.data as ApiResponseData<BridgeConfigDto>
+}
+
+export const getBridgeAmountLimits = async (params: GetBridgeAmountLimitsParams) => {
+  const response = await api.post('/bridge/limits', params)
+  return response.data as ApiResponseData<BridgeAmountLimitsDto>
 }

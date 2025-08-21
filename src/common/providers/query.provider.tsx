@@ -9,7 +9,7 @@ import { BridgeConfig } from '@/types'
 import { BASE_URLS } from '../consts'
 
 // API response interface
-interface ApiResponseData<T = any> {
+export interface ApiResponseData<T = any> {
   code: number
   message?: string
   data?: T

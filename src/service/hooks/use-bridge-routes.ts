@@ -8,6 +8,7 @@ import { getBridgeRoutes } from '../apis/route.api'
 import { useFromChainId, useRawAmount, useToChainId } from '../stores/bridge.store'
 import { useDestinationToken, useSelectedToken } from '../stores/token.store'
 import { useMemo } from 'react'
+import { useBridgeAmountLimits } from './use-bridge-amount-limits'
 
 export const useBridgeRoutes = () => {
   const fromChainId = useFromChainId()
@@ -18,17 +19,24 @@ export const useBridgeRoutes = () => {
   const recipient = useRecipient()
   const sender = useSender()
 
+  const { data: bridgeLimits } = useBridgeAmountLimits()
+
   const [debouncedAmount] = useDebounce(amount, 500)
 
   // Reset debounced amount immediately when amount is empty
   const finalAmount = useMemo(() => (amount === '' || amount === null || amount === undefined ? '' : debouncedAmount), [debouncedAmount, amount])
 
   const isSatisfyLimits = useMemo(() => {
-    if (!token?.bridgeLimits) return true
+    if (!bridgeLimits || !bridgeLimits.data || !token) return true
 
-    const typedAmount = parseFloat(finalAmount)
-    return typedAmount >= parseFloat(token.bridgeLimits.minAmount) && typedAmount <= parseFloat(token.bridgeLimits.maxAmount)
-  }, [finalAmount, token])
+    const typedAmount = parseUnits(finalAmount, token!.decimals)
+
+    try {
+      return typedAmount >= BigInt(bridgeLimits.data.limits.minValue) && typedAmount <= BigInt(bridgeLimits.data.limits.maxValue)
+    } catch {
+      return true
+    }
+  }, [finalAmount, token, bridgeLimits])
 
   const isReady = Boolean(
     sender &&

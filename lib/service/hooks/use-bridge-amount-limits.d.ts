@@ -1,0 +1,1 @@
+export declare const useBridgeAmountLimits: () => import('@tanstack/react-query').UseQueryResult<import('../../common/providers/query.provider').ApiResponseData<import('../models/bridge.model').BridgeAmountLimitsDto> | null, Error>;
