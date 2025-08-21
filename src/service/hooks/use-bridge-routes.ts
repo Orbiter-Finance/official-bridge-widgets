@@ -7,6 +7,7 @@ import { useRecipient, useSender } from '@/hooks/wallets/use-recipient'
 import { getBridgeRoutes } from '../apis/route.api'
 import { useFromChainId, useRawAmount, useToChainId } from '../stores/bridge.store'
 import { useDestinationToken, useSelectedToken } from '../stores/token.store'
+import { useMemo } from 'react'
 
 export const useBridgeRoutes = () => {
   const fromChainId = useFromChainId()
@@ -20,16 +21,23 @@ export const useBridgeRoutes = () => {
   const [debouncedAmount] = useDebounce(amount, 500)
 
   // Reset debounced amount immediately when amount is empty
-  const finalAmount = amount === '' || amount === null || amount === undefined ? '' : debouncedAmount
+  const finalAmount = useMemo(() => (amount === '' || amount === null || amount === undefined ? '' : debouncedAmount), [debouncedAmount, amount])
+
+  const isSatisfyLimits = useMemo(() => {
+    if (!token?.bridgeLimits) return true
+
+    const typedAmount = parseFloat(finalAmount)
+    return typedAmount >= parseFloat(token.bridgeLimits.minAmount) && typedAmount <= parseFloat(token.bridgeLimits.maxAmount)
+  }, [finalAmount, token])
 
   const isReady = Boolean(
-      sender &&
+    sender &&
       recipient &&
       token?.address &&
       destinationToken?.address &&
       fromChainId &&
       toChainId &&
-      finalAmount &&
+      isSatisfyLimits &&
       Number(finalAmount) > 0 &&
       Number(finalAmount) < Number.MAX_SAFE_INTEGER
   )

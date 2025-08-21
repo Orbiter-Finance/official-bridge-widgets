@@ -20,6 +20,10 @@ export interface Token {
   id?: string
   coinKey?: string
   iconUrl?: string | null
+  bridgeLimits?: {
+    maxAmount: string
+    minAmount: string
+  }
 }
 
 export type PartialToken = Omit<Token, 'timestamp' | 'confidence'>

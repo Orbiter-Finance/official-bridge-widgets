@@ -74,7 +74,7 @@ export const BridgeFrom = () => {
             name='amount'
             id='amount'
             className={`block w-full shadow-none bg-transparent focus:outline-none text-4xl leading-[48px] placeholder:text-muted-foreground text-foreground`}
-            placeholder='0'
+            placeholder={token?.bridgeLimits ? `${token.bridgeLimits.minAmount}~${token.bridgeLimits.maxAmount}` : '0'}
           />
           <TokenSelect />
         </div>
