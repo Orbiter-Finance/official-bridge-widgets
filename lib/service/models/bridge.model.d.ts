@@ -17,6 +17,7 @@ export interface BridgeConfigDto {
     theme: ThemeDto;
     createdAt?: string;
     updatedAt?: string;
+    status: ProjectStatus;
     thirdParty: {
         googleAnalytics?: {
             gId: string;
@@ -25,6 +26,11 @@ export interface BridgeConfigDto {
             dsn: string;
         };
     };
+}
+export declare enum ProjectStatus {
+    Normal = 1,
+    SystemOffline = 2,
+    SystemUnderMaintenance = 3
 }
 export interface MetadataDto {
     title: string;

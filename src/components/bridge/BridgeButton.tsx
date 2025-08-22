@@ -22,6 +22,8 @@ import { useRecipient } from '@/hooks/wallets/use-recipient'
 import { isRouteQuote } from '@/utils/guards'
 
 import { Button } from '../ui/button'
+import { useClientState } from '@/service/hooks/use-state-client'
+import { ProjectStatus } from '@/service/models/bridge.model'
 
 interface SubmitButton {
   onSubmit: () => void
@@ -50,6 +52,8 @@ export const BridgeButton = () => {
   // Balance
   const fromEthBalance = useGasBalance(initiatingChain?.id)
   const hasInsufficientBalance = useHasInsufficientBalance()
+
+  const { status: projectStatus } = useClientState()
 
   // Gas
   const estimateData = useBridgeGasEstimateData()
@@ -83,6 +87,7 @@ export const BridgeButton = () => {
 
   const submitButton: SubmitButton = match({
     weiAmount,
+    projectStatus,
     sender,
     recipient,
     hasInsufficientBalance,
@@ -94,6 +99,16 @@ export const BridgeButton = () => {
     // routeErrorMsg: route.error?.message,
     validRoute: route.data && isRouteQuote(route.data.result)
   })
+    .with({ projectStatus: ProjectStatus.SystemOffline }, () => ({
+      onSubmit: () => {},
+      buttonText: 'Network Offline',
+      disabled: true
+    }))
+    .with({ projectStatus: ProjectStatus.SystemUnderMaintenance }, () => ({
+      onSubmit: () => {},
+      buttonText: 'Network Maintenance',
+      disabled: true
+    }))
     .with({ sender: undefined, recipient: undefined }, () => ({
       onSubmit: evmWalletModal.open!,
       buttonText: t('connectWallet'),

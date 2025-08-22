@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { isPresent } from 'ts-is-present';
 
 import { useApproved } from '@/hooks/approvals/use-approved';
-import { DEFAULT_GAS } from '@/service/apis/gas.api';
+import { TRANSFER_GAS } from '@/service/apis/gas.api';
 import { RouteResultDto } from '@/service/models/route.model';
 import { isInsufficientGasError } from '@/utils/error/error-catch';
 
@@ -57,11 +57,9 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
         queryFn: async () => {
             if (!initiatingTransaction) return null;
 
-            // console.log('【useRouteGasEstimate】', approvalGasEstimate.data, initiatingGasEstimate.data);
-
             const transactionsForGasEstimate = approvalItem ? [approvalItem, initiatingItem] : [initiatingItem];
             const defaultEstimates = transactionsForGasEstimate.map((tx) => ({
-                limit: DEFAULT_GAS,
+                limit: TRANSFER_GAS,
                 chainId: tx?.chainId ?? '',
             }));
 
@@ -86,12 +84,9 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
                         ? { limit: initiatingLimit, chainId: initiatingItem.chainId }
                         : null;
 
-                console.log('【useRouteGasEstimate】', approvalEstimate, initiatingEstimate);
-
                 // Check if at least one valid gas estimate is available
                 const validEstimates = [approvalEstimate, initiatingEstimate].filter(isPresent);
                 if (validEstimates.length === 0) {
-                    console.warn('【useRouteGasEstimate】 No valid gas estimates available, using defaults');
                     return {
                         success: false,
                         estimates: defaultEstimates,
@@ -104,8 +99,6 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
                     needsRefreshAfterApprove: true,
                 };
             } catch (error) {
-                console.error('Gas estimation failed:', error);
-
                 if (isInsufficientGasError(error)) {
                     return {
                         success: false,
@@ -130,7 +123,7 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
                 }
 
                 if (partialEstimates.length > 0) {
-                    console.warn('【useRouteGasEstimate】 Using partial gas estimates due to error:', error);
+
                     return {
                         success: true,
                         estimates: partialEstimates,
@@ -146,16 +139,17 @@ export const useRouteGasEstimate = (route: RouteResultDto | null) => {
         },
         staleTime: 1000 * 15, // Increased to 15 seconds to reduce refetch frequency
         gcTime: 1000 * 60, // Increased to 1 minute to extend cache time
+        retry: 0,
         // Add retry mechanism to avoid failures due to temporary network issues
-        retry: (failureCount, error) => {
-            // Don't retry for business logic errors (like insufficient balance)
-            if (isInsufficientGasError(error)) {
-                return false;
-            }
-            // Retry up to 2 times
-            return failureCount < 2;
-        },
-        // Add retry delay to avoid immediate retries
-        retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+        // retry: (failureCount, error) => {
+        //     // Don't retry for business logic errors (like insufficient balance)
+        //     if (isInsufficientGasError(error)) {
+        //         return false;
+        //     }
+        //     // Retry up to 2 times
+        //     return failureCount < 2;
+        // },
+        // // Add retry delay to avoid immediate retries
+        // retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     });
 };

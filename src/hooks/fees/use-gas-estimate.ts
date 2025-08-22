@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import {
+    calculateOptimalEIP1559Fees,
     calculatePriorityFee,
     getMetamaskGasFees,
     getNetworkGasLimit,
@@ -8,8 +9,6 @@ import {
 } from '@/service/apis/gas.api';
 import { ChainDto } from '@/service/models/chain.model';
 import { GasEstimateRpcParams } from '@/service/models/transaction.model';
-
-// import { log } from '@/utils/log';
 
 export type GasEstimate = {
     fee: string;
@@ -60,18 +59,20 @@ export const useGasLimit = (chain: ChainDto | null | undefined, transactions: Ga
         queryFn: () => {
             if (!chain) return null;
             if (!transactions.length) return null;
+
             return getGasLimit(chain, transactions);
         },
         enabled: !!chain && !!transactions && transactions.length > 0,
         staleTime: 1000 * 30, // Increased to 30 seconds, gas limit is relatively stable
         gcTime: 1000 * 120, // Increased to 2 minutes to extend cache time
-        // Add retry mechanism
-        retry: (failureCount) => {
-            // Retry up to 3 times
-            return failureCount < 3;
-        },
-        // Add retry delay
-        retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+        retry: 0,
+        // // Add retry mechanism
+        // retry: (failureCount) => {
+        //     // Retry up to 3 times
+        //     return failureCount < 3;
+        // },
+        // // Add retry delay
+        // retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
     });
 };
 
@@ -82,30 +83,45 @@ export const useGasLimit = (chain: ChainDto | null | undefined, transactions: Ga
  */
 export const getGasFees = async (chain: ChainDto): Promise<GasFees | null> => {
     try {
-        // Try to get gas fees from MetaMask API first
+        // Try to get gas fees from MetaMask API first (most accurate)
         const metamaskFees = await getMetamaskGasFees(chain.chainId);
         if (metamaskFees) {
-            // log('getGasFees from MetaMask', chain.chainId, metamaskFees);
+            // logger.info(LogCategory.GAS, 'GasFees MetaMask', metamaskFees);
             return metamaskFees;
         }
-
-        // Fallback to network gas price and calculate priority fee
         if (!chain.rpc?.length) return null;
+
+        // Try to calculate optimal EIP-1559 fees using current base fee
+        const optimalFees = await calculateOptimalEIP1559Fees(chain.chainId, chain.rpc[0]);
+        if (optimalFees) {
+            // logger.info(LogCategory.GAS, 'GasFees EIP-1559', optimalFees);
+            return optimalFees;
+        }
+
+        // Fallback to legacy gas price calculation
         const networkGasPrice = await getNetworkGasPrice(chain.rpc, chain.chainId);
 
         if (networkGasPrice) {
             const priorityFee = calculatePriorityFee(chain.chainId, networkGasPrice);
+
+            // Calculate maxFeePerGas according to EIP-1559 formula:
+            // maxFeePerGas = baseFeePerGas + maxPriorityFeePerGas + buffer
+            // For legacy gas price, we estimate baseFeePerGas as 60-70% of total gas price
+            const estimatedBaseFee = (networkGasPrice * 65n) / 100n; // 65% of gas price as base fee
+            const buffer = (estimatedBaseFee * 20n) / 100n; // 20% buffer for base fee fluctuations
+            const maxFeePerGas = estimatedBaseFee + priorityFee + buffer;
+
             const gasFees = {
-                maxFeePerGas: networkGasPrice * 2n, // Double the base price for max fee
+                maxFeePerGas: maxFeePerGas,
                 maxPriorityFeePerGas: priorityFee,
             };
-            // log('getGasFees calculated', chain.chainId, gasFees);
+            // logger.info(LogCategory.GAS, 'GasFees Legacy', gasFees);
             return gasFees;
         }
 
         return null;
-    } catch (error) {
-        console.error(`Failed to get gas fees for chain ${chain?.chainId}:`, error);
+    } catch {
+        console.error(`Failed to get gas fees for chain ${chain?.chainId}`);
         return null;
     }
 };
@@ -128,8 +144,8 @@ export const getGasPrice = async (chain: ChainDto): Promise<bigint | null> => {
         // log('getGasPrice', chain.chainId, networkGasPrice);
 
         return networkGasPrice;
-    } catch (error) {
-        console.error(`Failed to get gas price for chain ${chain?.chainId}:`, error);
+    } catch {
+        console.error(`Failed to get gas price for chain ${chain?.chainId}`);
         return null;
     }
 };
@@ -150,8 +166,8 @@ export const getGasLimit = async (chain: ChainDto, transaction: GasEstimateRpcPa
         // get gas limit
         const gasLimit = await getNetworkGasLimit(chain.rpc, transaction, chain.chainId);
         return gasLimit ?? null;
-    } catch (error) {
-        console.error(`Failed to get gas limit for chain ${chain.chainId}:`, error);
+    } catch {
+        console.error(`Failed to get gas limit for chain ${chain.chainId}`);
         return null;
     }
 };

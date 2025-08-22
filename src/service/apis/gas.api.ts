@@ -9,6 +9,7 @@ import { sendEthereumRpcRequest } from './onchain.api';
 export const DEFAULT_GAS_PRICE = 1500000000; // 1.5 gwei
 export const DEFAULT_GAS_LIMIT = 50000; // 50000 gas for approve
 export const DEFAULT_GAS = 500_000; // 500000 gas
+export const TRANSFER_GAS = 250_000; // 250000 gas
 
 export const PROVE_GAS = BigInt(500_000);
 export const FINALIZE_GAS = BigInt(500_000);
@@ -40,6 +41,77 @@ export const calculatePriorityFee = (chainId: string, baseGasPrice: bigint): big
         const calculatedPriority = baseGasPrice / 10n;
         const minPriority = BigInt(1000000000); // 1 gwei
         return calculatedPriority > minPriority ? calculatedPriority : minPriority;
+    }
+};
+
+/**
+ * @description Get current block base fee for EIP-1559 calculation
+ * @param rpc - RPC endpoint
+ * @returns base fee per gas in wei
+ */
+export const getCurrentBaseFee = async (rpc: string): Promise<bigint | null> => {
+    try {
+        const latestBlock = await sendEthereumRpcRequest(rpc, 'eth_getBlockByNumber', ['latest', false]);
+        if (latestBlock?.baseFeePerGas) {
+            return BigInt(latestBlock.baseFeePerGas);
+        }
+        return null;
+    } catch {
+        return null;
+    }
+};
+
+/**
+ * @description Calculate optimal EIP-1559 gas fees
+ * @param chainId - chain id
+ * @param rpc - RPC endpoint
+ * @returns optimal gas fees
+ */
+export const calculateOptimalEIP1559Fees = async (
+    chainId: string,
+    rpc: string
+): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint } | null> => {
+    try {
+        // Get current base fee
+        const baseFeePerGas = await getCurrentBaseFee(rpc);
+        if (!baseFeePerGas) {
+            return null;
+        }
+
+        // Calculate priority fee based on network conditions
+        const priorityFee = calculatePriorityFee(chainId, baseFeePerGas);
+
+        // Calculate max fee with buffer for base fee fluctuations
+        // Buffer size depends on network congestion
+        const baseFeeGwei = Number(baseFeePerGas) / 1e9;
+        let bufferMultiplier: number;
+
+        if (baseFeeGwei > 50) {
+            bufferMultiplier = 0.3; // 30% buffer for high congestion
+        } else if (baseFeeGwei > 20) {
+            bufferMultiplier = 0.2; // 20% buffer for medium congestion
+        } else {
+            bufferMultiplier = 0.1; // 10% buffer for low congestion
+        }
+
+        const buffer = (baseFeePerGas * BigInt(Math.floor(bufferMultiplier * 100))) / 100n;
+        const maxFeePerGas = baseFeePerGas + priorityFee + buffer;
+
+        // Case:  baseFeePerGas=1Gwei priorityFee=1Gwei, buffer=0.1Gwei, maxFeePerGas=2.1Gwei
+        // logger.info(LogCategory.GAS, 'calculateOptimalEIP1559Fees', {
+        //     baseFeePerGas,
+        //     bufferMultiplier,
+        //     priorityFee,
+        //     buffer,
+        //     maxFeePerGas,
+        // });
+
+        return {
+            maxFeePerGas,
+            maxPriorityFeePerGas: priorityFee,
+        };
+    } catch {
+        return null;
     }
 };
 

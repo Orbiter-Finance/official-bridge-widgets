@@ -1,4 +1,4 @@
-import { BridgeConfigDto } from '@/service/models/bridge.model'
+import { BridgeConfigDto, ProjectStatus } from '@/service/models/bridge.model'
 
 import metadataConfig from './config/metadata'
 import themeConfig from './config/theme'
@@ -24,6 +24,7 @@ export const testConfig: BridgeConfigDto & { host: 'test.d2ps0ulbl914sr.amplifya
   chains: testnetChains,
   tokens: testnetTokensConfig,
   metadata: metadataConfig,
+  status: ProjectStatus.Normal,
   thirdParty: {
     googleAnalytics: {
       gId: 'G-Y3JV98YX1B'
@@ -43,6 +44,7 @@ export const mainnetConfig: BridgeConfigDto & { host: 'eni.orbiter.finance' } = 
     tokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
   },
   chains: mainnetChains,
+  status: ProjectStatus.Normal,
   tokens: mainnetTokensConfig, // TODO: update tokens
   metadata: metadataConfig,
   theme: themeConfig,

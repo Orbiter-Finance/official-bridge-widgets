@@ -2,6 +2,7 @@ import { GasEstimateRpcParams } from '../models/transaction.model';
 export declare const DEFAULT_GAS_PRICE = 1500000000;
 export declare const DEFAULT_GAS_LIMIT = 50000;
 export declare const DEFAULT_GAS = 500000;
+export declare const TRANSFER_GAS = 250000;
 export declare const PROVE_GAS: bigint;
 export declare const FINALIZE_GAS: bigint;
 /**
@@ -11,6 +12,22 @@ export declare const FINALIZE_GAS: bigint;
  * @returns priority fee in wei
  */
 export declare const calculatePriorityFee: (chainId: string, baseGasPrice: bigint) => bigint;
+/**
+ * @description Get current block base fee for EIP-1559 calculation
+ * @param rpc - RPC endpoint
+ * @returns base fee per gas in wei
+ */
+export declare const getCurrentBaseFee: (rpc: string) => Promise<bigint | null>;
+/**
+ * @description Calculate optimal EIP-1559 gas fees
+ * @param chainId - chain id
+ * @param rpc - RPC endpoint
+ * @returns optimal gas fees
+ */
+export declare const calculateOptimalEIP1559Fees: (chainId: string, rpc: string) => Promise<{
+    maxFeePerGas: bigint;
+    maxPriorityFeePerGas: bigint;
+} | null>;
 /**
  * @description Get suggested gas fees including priority fee from MetaMask API
  * @param chainId - chain id

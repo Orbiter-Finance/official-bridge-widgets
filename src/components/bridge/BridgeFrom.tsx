@@ -18,6 +18,8 @@ import { BridgeSelect } from './BridgeSelect'
 import { TokenSelect } from './TokenSelect'
 import { useBridgeAmountLimits } from '@/service/hooks/use-bridge-amount-limits'
 import { useMemo } from 'react'
+import { ProjectStatus } from '@/service/models/bridge.model'
+import { useClientState } from '@/service/hooks/use-state-client'
 
 export const BridgeFrom = () => {
   const [fromChainId, setFromChainId] = useAtom(fromChainIdAtom)
@@ -35,16 +37,24 @@ export const BridgeFrom = () => {
   const fiatAmount = Number(rawAmount) * (price ?? 0)
   const formattedTokenBalanceUSD = formatFiat(fiatAmount)
 
-  const { data: bridgeLimits } = useBridgeAmountLimits();
-  const placeholder = useMemo(() => {
-      if (!bridgeLimits?.data || !token) return '0';
+  const { status: projectStatus } = useClientState()
 
-      try {
-          return `${formatUnits(BigInt(bridgeLimits.data.limits.minValue), token.decimals)}~${formatUnits(BigInt(bridgeLimits.data.limits.maxValue), token.decimals)}`;
-      } catch  {
-          return '0';
-      }
-  }, [bridgeLimits, token]);
+  const isNetworkDisabled = useMemo(() => {
+    if (!projectStatus) return undefined
+
+    return projectStatus !== ProjectStatus.Normal
+  }, [projectStatus])
+
+  const { data: bridgeLimits } = useBridgeAmountLimits()
+  const placeholder = useMemo(() => {
+    if (!bridgeLimits?.data || !token) return '0'
+
+    try {
+      return `${formatUnits(BigInt(bridgeLimits.data.limits.minValue), token.decimals)}~${formatUnits(BigInt(bridgeLimits.data.limits.maxValue), token.decimals)}`
+    } catch {
+      return '0'
+    }
+  }, [bridgeLimits, token])
 
   const onSetMax = () => {
     setRawAmount(displayTokenBalance)
@@ -57,6 +67,7 @@ export const BridgeFrom = () => {
         <div className='flex justify-between items-center gap-4'>
           <input
             value={rawAmount}
+            disabled={isNetworkDisabled}
             onChange={e => {
               const parsed = e.target.value.replaceAll(',', '.')
 
@@ -113,7 +124,7 @@ export const BridgeFrom = () => {
                   size='sm'
                   className='text-xs py-0 px-0'
                   onClick={onSetMax}
-                  disabled={tokenBalance.isLoading || tokenBalance.data === 0n}>
+                  disabled={tokenBalance.isLoading || isNetworkDisabled || tokenBalance.data === 0n}>
                   Max
                 </Button>
               </div>

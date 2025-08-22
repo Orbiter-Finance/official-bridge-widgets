@@ -43,7 +43,10 @@ api.interceptors.response.use(
 
       // Map business error code to existing error code and handle
       const mappedErrorCode = mapBusinessErrorCode(data.code)
-      handleError(businessError, mappedErrorCode, data.message)
+
+      if (![512, 513].includes(data.code)) {
+        handleError(businessError, mappedErrorCode, data.message)
+      }
 
       return Promise.reject(businessError)
     }
